@@ -1,13 +1,12 @@
-import express from 'express'
-import dotenv from 'dotenv'
+import express from "express";
 import cors from 'cors';
+import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
-
-import connectDB from './config/mongodb.js';
-import userRouter from './routes/userRouter.js';
+import connectDB from "./config/mongodb.js";
+import userRouter from "./routes/userRouter.js";
+const app = express();
+const port = process.env.PORT || 4000;
 dotenv.config();
-const app = express()
-const port = 4000;
 const allowedOrigins = [
     'http://localhost:5173'
 ]
@@ -18,10 +17,14 @@ app.use(cors({
     credentials: true
 }));
 connectDB()
+    //API endpoints
 app.get('/', (req, res) => {
-    res.send("API working")
+    res.send("API working");
 })
+
+
 app.use('/api/user', userRouter)
+
 app.listen(port, () => {
-    console.log("Server Started")
+    console.log("Server started!")
 })
