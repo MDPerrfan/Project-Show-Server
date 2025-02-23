@@ -9,7 +9,7 @@ const port = process.env.PORT || 4000;
 dotenv.config();
 const allowedOrigins = [
     'http://localhost:5173',
-    'https://projectshowserver.onrender.com'
+    'https://projectshelf.netlify.app'
 ]
 app.use(express.json());
 app.use(cookieParser());
