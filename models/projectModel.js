@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const projectSchema = new mongoose.Schema({
-        id: { type: String, required: true, unique: true },
+        id: { type: String, required: true },
         name: { type: String, required: true },
         batch: { type: String, required: true },
         title: { type: String, required: true },
