@@ -131,9 +131,9 @@ export const isAuthenticated = async(req, res) => {
     //api to get user profile data
 export const getProfile = async(req, res) => {
     try {
-        const userId = req.user.id; // Get from auth middleware
-        const userData = await userModel.findById(userId).select('-password');
-        res.json({ success: true, userData });
+        const { userId } = req.body
+        const userData = await userModel.findById(userId).select('-password')
+        res.json({ success: true, userData })
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: error.message });

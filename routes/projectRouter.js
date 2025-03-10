@@ -5,12 +5,6 @@ const projectRouter = express.Router();
 
 projectRouter.post("/create", async(req, res) => {
     try {
-        const { id } = req.body;
-        // Check if the Student ID already exists
-        const existingStudent = await projectModel.findOne({ id });
-        if (existingStudent) {
-            return res.status(400).json({ success: false, message: 'This Student ID already exists.' });
-        }
         const project = new projectModel(req.body);
         await project.save();
 

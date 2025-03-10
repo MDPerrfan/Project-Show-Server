@@ -6,15 +6,14 @@ const studentSchema = new mongoose.Schema({
 });
 
 const projectSchema = new mongoose.Schema({
-        students: [studentSchema], // Array of student objects
-        batch: { type: String, required: true },
-        title: { type: String, required: true },
-        supervisor: { type: String, required: true },
-        year: { type: String, required: true },
-        link: { type: String, required: false }, // Optional field
-        keywords: { type: [String], required: true }, // Array of strings
-    }, { timestamps: true } // Automatically adds createdAt & updatedAt
-);
+    students: [studentSchema],
+    batch: { type: String, required: true },
+    title: { type: String, required: true },
+    supervisor: { type: String, required: true },
+    year: { type: String, required: true },
+    link: { type: String, required: false },
+    keywords: { type: [String], required: true }
+}, { timestamps: true });
 
 // Add validation for at least one student
 projectSchema.pre('save', function(next) {
