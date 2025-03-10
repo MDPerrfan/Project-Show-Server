@@ -130,17 +130,17 @@ export const isAuthenticated = async(req, res) => {
     }
     //api to get user profile data
 export const getProfile = async(req, res) => {
-        try {
-            const { userId } = req.body
-            const userData = await userModel.findById(userId).select('-password')
-            res.json({ success: true, userData })
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: error.message });
-        }
+    try {
+        const userId = req.user.id; // Get from auth middleware
+        const userData = await userModel.findById(userId).select('-password');
+        res.json({ success: true, userData });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
     }
+}
     //api to update user profile
-const updateProfile = async(req, res) => {
+export const updateProfile = async(req, res) => {
     try {
         const { userId, name, phone, address, dob, gender } = req.body
         const imageFile = req.file
@@ -161,7 +161,7 @@ const updateProfile = async(req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
-export const sendVerfiyOtp = async(req, res) => {
+export const sendVerifyOtp = async(req, res) => {
     try {
         const { userId } = req.body
         const user = await userModel.findById(userId);
