@@ -142,8 +142,8 @@ export const getProfile = async(req, res) => {
     //api to update user profile
 export const updateProfile = async(req, res) => {
     try {
-        const userId = req.user.id; // Get from auth middleware
-        const { name, phone, address, dob, gender } = req.body;
+        const {userId, name, phone, address, dob, gender } = req.body;
+        console.log(req.body)
         const imageFile = req.file;
         
         if (!name || !gender || !phone || !address || !dob) {

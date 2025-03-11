@@ -56,7 +56,7 @@ projectRouter.delete("/delete/:id", userAuth, async(req, res) => {
         const deletedProject = await projectModel.findOneAndDelete({ _id: req.params.id });
         if (!deletedProject)
             return res.status(404).json({ message: "Project not found" });
-        res.json({ message: "Project deleted successfully" });
+        res.json({success:true, message: "Project deleted successfully" });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
