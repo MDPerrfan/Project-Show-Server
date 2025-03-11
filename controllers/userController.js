@@ -143,9 +143,8 @@ export const getProfile = async(req, res) => {
 export const updateProfile = async(req, res) => {
     try {
         const {userId, name, phone, address, dob, gender } = req.body;
-        console.log(req.body)
         const imageFile = req.file;
-        
+        console.log(imageFile)
         if (!name || !gender || !phone || !address || !dob) {
             return res.json({ success: false, message: "Data missing!" });
         }
