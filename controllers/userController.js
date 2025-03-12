@@ -46,21 +46,22 @@ export const registerUser = async(req, res) => {
         });
         await newUser.save();
 
-        // 8. Generate a token
-        const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '24h' });
-        res.cookie('token', token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-                maxAge: 7 * 24 * 60 * 60 * 1000
-            })
             // Sending welcome email
-        const mailOptions = {
-            from: process.env.SENDER_EMAIL,
-            to: email,
-            subject: 'Welcome to the Project and Thesis Management Platform!',
-            text: `Dear ${name},\n\nWelcome to our Project and Thesis Management Platform! Your account has been successfully created with the email address ${email}. You can now add and manage details of the projects and theses you supervise.\n\nWe look forward to your contributions!\n\nBest regards,\nMohammed Parves\nCSE-27-D-A`
-        }
+            const mailOptions = {
+                from: process.env.SENDER_EMAIL,
+                to: email,
+                subject: 'Welcome to the Project and Thesis Management Platform!',
+                text: `Hello ${name},\n\n
+                Welcome aboard! We're excited to have you on the Project and Thesis Management Platform.\n\n
+                Your account has been successfully created using the email address: ${email}. You can now start managing the details of the projects and theses you supervise.\n\n
+                Please log in to your account using your email address and the default password. We highly recommend that you reset your password upon logging in for added security.\n\n
+                If you have any questions or need assistance, feel free to reach out.\n\n
+                We look forward to your valuable contributions!\n\n
+                Best regards,\n
+                Mohammed Parves\n
+                CSE-27-D-A`
+            }
+            
         await transporter.sendMail(mailOptions);
 
         // 9. Send success response
