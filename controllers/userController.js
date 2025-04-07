@@ -46,22 +46,23 @@ export const registerUser = async(req, res) => {
         });
         await newUser.save();
 
-            // Sending welcome email
-            const mailOptions = {
-                from: process.env.SENDER_EMAIL,
-                to: email,
-                subject: 'Welcome to the Project and Thesis Management Platform!',
-                text: `Hello ${name},\n\n
+        // Sending welcome email
+        const mailOptions = {
+            from: process.env.SENDER_EMAIL,
+            to: email,
+            subject: 'Welcome to the Project and Thesis Management Platform!',
+            text: `Hello ${name} Sir/Mam,\n\n
                 Welcome aboard! We're excited to have you on the Project and Thesis Management Platform.\n\n
-                Your account has been successfully created using the email address: ${email}. You can now start managing the details of the projects and theses you supervise.\n\n
-                Please log in to your account using your email address and the default password. We highly recommend that you reset your password upon logging in for added security.\n\n
+                Your account has been successfully created using the email address: ${email}. \n
+                Please log in to your account using your email address and the default password(1-8). We highly recommend that you reset your password after logging in.\n\n
+                This platform is designed to bring together all CSE student projects and thesis under one roof.\n
                 If you have any questions or need assistance, feel free to reach out.\n\n
                 We look forward to your valuable contributions!\n\n
                 Best regards,\n
                 Mohammed Parves\n
                 CSE-27-D-A`
-            }
-            
+        }
+
         await transporter.sendMail(mailOptions);
 
         // 9. Send success response
@@ -131,34 +132,34 @@ export const isAuthenticated = async(req, res) => {
     }
     //api to get user profile data
 export const getProfile = async(req, res) => {
-    try {
-        const { userId } = req.body
-        const userData = await userModel.findById(userId).select('-password')
-        res.json({ success: true, userData })
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: error.message });
+        try {
+            const { userId } = req.body
+            const userData = await userModel.findById(userId).select('-password')
+            res.json({ success: true, userData })
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: error.message });
+        }
     }
-}
     //api to update user profile
 export const updateProfile = async(req, res) => {
     try {
-        const {userId, name, phone, address, dob, gender } = req.body;
+        const { userId, name, phone, address, dob, gender } = req.body;
         const imageFile = req.file;
         console.log(imageFile)
         if (!name || !gender || !phone || !address || !dob) {
             return res.json({ success: false, message: "Data missing!" });
         }
-        
+
         await userModel.findByIdAndUpdate(userId, { name, phone, address: JSON.parse(address), dob, gender });
-        
+
         if (imageFile) {
             //upload image to cloudinary
             const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" });
             const imageUrl = imageUpload.secure_url;
             await userModel.findByIdAndUpdate(userId, { image: imageUrl });
         }
-        
+
         res.json({ success: true, message: "Profile Updated!" });
     } catch (error) {
         console.error(error);
