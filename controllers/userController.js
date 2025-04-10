@@ -56,6 +56,7 @@ export const registerUser = async(req, res) => {
                 Your account has been successfully created using the email address: ${email}. \n
                 Please log in to your account using your email address and the default password(1-8). We highly recommend that you reset your password after logging in.\n\n
                 This platform is designed to bring together all CSE student projects and thesis under one roof.\n
+                visit website https://projectshelf.netlify.app
                 If you have any questions or need assistance, feel free to reach out.\n\n
                 We look forward to your valuable contributions!\n\n
                 Best regards,\n
