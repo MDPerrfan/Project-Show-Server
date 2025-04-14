@@ -253,25 +253,47 @@ export const sendResetOtp = async(req, res) => {
     }
     //reset user password
 export const resetPassword = async(req, res) => {
-    const { email, otp, newPassword } = req.body;
-    if (!email || !otp || !newPassword) {
-        return res.json({ success: false, message: "Email,OTP and new password is required" })
-    }
-    const user = await userModel.findOne({ email })
-    if (!user) {
-        return res.json({ success: false, message: "User not found" })
-    }
-    if (user.resetOtp === "" || user.resetOtp !== otp) {
-        return res.json({ success: false, message: "Invalid OTP" })
-    }
-    if (user.resetOtpExpired < Date.now()) {
-        return res.json({ success: false, message: "OTP Expired!" })
+        const { email, otp, newPassword } = req.body;
+        if (!email || !otp || !newPassword) {
+            return res.json({ success: false, message: "Email,OTP and new password is required" })
+        }
+        const user = await userModel.findOne({ email })
+        if (!user) {
+            return res.json({ success: false, message: "User not found" })
+        }
+        if (user.resetOtp === "" || user.resetOtp !== otp) {
+            return res.json({ success: false, message: "Invalid OTP" })
+        }
+        if (user.resetOtpExpired < Date.now()) {
+            return res.json({ success: false, message: "OTP Expired!" })
 
+        }
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        user.resetOtp = '';
+        user.resetOtpExpired = 0;
+        await user.save();
+        return res.json({ success: true, message: "Password has been reset successfully!" })
     }
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    user.password = hashedPassword;
-    user.resetOtp = '';
-    user.resetOtpExpired = 0;
-    await user.save();
-    return res.json({ success: true, message: "Password has been reset successfully!" })
-}
+    // get all user name
+export const getAlluser = async(req, res) => {
+    try {
+        const userData = await userModel.find({}, 'name');
+        if (userData) {
+            res.json({
+                success: true,
+                userData,
+            });
+        } else {
+            res.status(404).json({
+                success: false,
+                message: "Failed to get users name.",
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
+};
