@@ -15,7 +15,7 @@ userRouter.post('/update-profile', upload.single('image'), updateProfile);
 userRouter.post('/reset-pass', resetPassword);
 userRouter.get('/is-auth', userAuth, isAuthenticated);
 userRouter.get('/data', userAuth, getProfile);
-userRouter.get('/allusername', userAuth, getAlluser);
+userRouter.get('/allusername', getAlluser);
 
 
 export default userRouter;

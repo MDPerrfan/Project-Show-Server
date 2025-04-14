@@ -7,10 +7,10 @@ import { v2 as cloudinary } from 'cloudinary';
 //api to register user
 export const registerUser = async(req, res) => {
     try {
-        const { name, email, password } = req.body;
-
+        const { name, email } = req.body;
+        const password = "12345678";
         // 1. Check if all details are provided
-        if (!name || !email || !password) {
+        if (!name || !email) {
             return res.json({ success: false, message: "Missing Details" });
         }
 
@@ -19,10 +19,7 @@ export const registerUser = async(req, res) => {
             return res.status(400).json({ message: 'Invalid email format.' });
         }
 
-        // 3. Validate password length
-        if (!validator.isLength(password, { min: 8 })) {
-            return res.status(400).json({ message: 'Password must be at least 8 characters long.' });
-        }
+
 
         // 4. Validate name length
         if (!validator.isLength(name, { min: 3 })) {
@@ -147,7 +144,6 @@ export const updateProfile = async(req, res) => {
     try {
         const { userId, name, phone, address, dob, gender } = req.body;
         const imageFile = req.file;
-        console.log(imageFile)
         if (!name || !gender || !phone || !address || !dob) {
             return res.json({ success: false, message: "Data missing!" });
         }
